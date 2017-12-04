@@ -19,8 +19,8 @@ const int colMax = 20;
 int foodCol;
 int foodRow;
 int score;
-int snakeX[100];
-int snakeY[100];
+int snakeX[99];
+int snakeY[99];
 int snakeLength;
 enum direction {STOP = 0, LEFT, RIGHT, UP, DOWN};
 direction dir;
@@ -247,20 +247,21 @@ void gameMechanics()
 	if(score == 9){
 		x = true;
 		gameOver = true;
+		return;
 	}
-	int prevX = snakeX[0];
-    int prevY = snakeY[0];
-    int prevX2, prevY2;
+	int X1 = snakeX[0];
+    int Y1 = snakeY[0];
+    int X2, Y2;
     snakeX[0] = cols;
     snakeY[0] = rows;
     for (int i = 1; i < snakeLength; i++)
     {
-        prevX2 = snakeX[i];
-        prevY2 = snakeY[i];
-        snakeX[i] = prevX;
-        snakeY[i] = prevY;
-        prevX = prevX2;
-        prevY = prevY2;
+        X2 = snakeX[i];
+        Y2 = snakeY[i];
+        snakeX[i] = X1;
+        snakeY[i] = Y1;
+        X1 = X2;
+        Y1 = Y2;
     }
 	switch (dir)
 	{
@@ -276,18 +277,18 @@ void gameMechanics()
         case DOWN:
             rows--;
             break;
-        default:
-            break; 
 	}
 	if (rows > rowMax || rows < 0 || cols > colMax || cols < 0)
     {
         gameOver = true;
+		return;
     }
     
     for (int i = 0; i < snakeLength; i++)
     {
         if (snakeX[i] == cols && snakeY[i] == rows){
             gameOver = true;
+		return;
         }
     }
 	if (rows == foodRow && cols == foodCol){
